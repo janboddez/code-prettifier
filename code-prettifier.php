@@ -61,7 +61,7 @@ class Code_Prettifier {
 	}
 
 	/**
-	 * Echoes an admin notice in he rare case preconditions are not met.
+	 * Echoes an admin notice in the rare case preconditions are not met.
 	 */
 	public function admin_notice() {
 		?>
