@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name: Code Prettifier for WordPress
+ * Description: Highlight code snippets on your WordPress blog.
+ * GitHub Plugin URI: https://github.com/janboddez/code-prettifier
  * Author: Jan Boddez
  * Author URI: https://janboddez.be/
  * License: GNU General Public License v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Version: 0.1
+ * Version: 0.2
  *
  * @author Jan Boddez [jan@janboddez.be]
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0
@@ -20,6 +22,8 @@ defined( 'ABSPATH' ) or exit;
 class Code_Prettifier {
 	/**
 	 * Registers the necessary hooks, or an admin notice in case environment requirements aren't met.
+	 *
+	 * @since 0.1
 	 */
 	public function __construct() {
 		if ( 1 === version_compare( PHP_VERSION, '5.4.0' ) && defined( 'LIBXML_DOTTED_VERSION' ) && 1 === version_compare( LIBXML_DOTTED_VERSION, '2.6.0' ) ) {
@@ -33,6 +37,8 @@ class Code_Prettifier {
 	/**
 	 * Filters preformatted blocks in order to not have to manually edit existing
 	 * tags.
+	 *
+	 * @since 0.1
 	 *
 	 * @param string $content The post (or page) content to be filtered.
 	 * @return string The filtered content.
@@ -52,6 +58,8 @@ class Code_Prettifier {
 
 	/**
 	 * On single pages and posts, loads Google's JS Code Prettifier script.
+	 *
+	 * @since 0.1
 	 */
 	public function load_scripts() {
 		/* Load only for single posts and pages (and stop it from affecting tag archives). */
@@ -62,6 +70,8 @@ class Code_Prettifier {
 
 	/**
 	 * Echoes an admin notice in the rare case preconditions are not met.
+	 *
+	 * @since 0.1
 	 */
 	public function admin_notice() {
 		?>
