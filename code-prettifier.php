@@ -44,6 +44,8 @@ class Code_Prettifier {
 	 * @return string The filtered content.
 	 */
 	public function filter_content( $content ) {
+		$prev = libxml_use_internal_errors( true );
+
 		$dom = new DOMDocument( '1.0', get_bloginfo( 'charset' ) );
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', get_bloginfo( 'charset' ) ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 
@@ -52,6 +54,7 @@ class Code_Prettifier {
 		}
 
 		$content = $dom->saveHTML();
+		libxml_use_internal_errors( $prev );
 
 		return $content;
 	}
