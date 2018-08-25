@@ -44,16 +44,21 @@ class Code_Prettifier {
 	 * @return string The filtered content.
 	 */
 	public function filter_content( $content ) {
-		$prev = libxml_use_internal_errors( true );
-		$dom = new DOMDocument( '1.0', get_bloginfo( 'charset' ) );
-		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', get_bloginfo( 'charset' ) ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		global $post;
 
-		foreach ( $dom->getElementsByTagName( 'pre' ) as $node ) {
-			$node->setAttribute( 'class', 'prettyprint' );
+		/* Run on single pages only. Prevents missing spaces in auto-generated excerpts, too. */
+		if ( isset( $post->ID ) && ( is_single( $post->ID ) || is_page( $post->ID ) ) ) {
+			$prev = libxml_use_internal_errors( true );
+			$dom = new DOMDocument( '1.0', get_bloginfo( 'charset' ) );
+			$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', get_bloginfo( 'charset' ) ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+
+			foreach ( $dom->getElementsByTagName( 'pre' ) as $node ) {
+				$node->setAttribute( 'class', 'prettyprint' );
+			}
+
+			$content = $dom->saveHTML();
+			libxml_use_internal_errors( $prev );
 		}
-
-		$content = $dom->saveHTML();
-		libxml_use_internal_errors( $prev );
 
 		return $content;
 	}
