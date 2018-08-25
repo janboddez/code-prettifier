@@ -53,7 +53,14 @@ class Code_Prettifier {
 			$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', get_bloginfo( 'charset' ) ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 
 			foreach ( $dom->getElementsByTagName( 'pre' ) as $node ) {
-				$node->setAttribute( 'class', 'prettyprint' );
+				$classes = array( 'prettyprint' );
+
+				if ( $node->hasAttribute( 'class' ) ) {
+					/* Keep existing classes. */
+					$classes = array_unique( array_merge( $classes, explode( ' ', $node->getAttribute( 'class' ) ) ) );
+				}
+
+				$node->setAttribute( 'class', implode( ' ', $classes ) );
 			}
 
 			$content = $dom->saveHTML();
